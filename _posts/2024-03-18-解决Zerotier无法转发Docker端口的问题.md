@@ -1,6 +1,6 @@
 ---
 title: 解决TrueNAS环境下Zerotier无法转发容器端口的问题
-date: 2024-02-26 02:24:00 +0800
+date: 2024-03-18 02:24:00 +0800
 categories: [NAS]
 tags: [Zerotier, TrueNAS, k8s]
 pin: true
@@ -65,3 +65,9 @@ iptables -t nat -A PREROUTING -i [ZeroTier网卡名] -p tcp -m tcp --dport [端�
 其中，`-t`指定使用nat表，`-A`指定这条规则追加在`PREROUTING`链后（对数据包做路由选择前执行的规则），`-i`指定包来源为ZeroTier的虚拟网卡，`-p`指定匹配TCP协议，并用`-m`指定使用iptables的TCP扩展模块；`--dport`匹配目标端口，`-j`表示匹配成功后触发DNAT，即目标地址转换，将目标地址转换为`--to-destination`中的地址。虽然这里的地址可以直接指向容器所在的ip地址，但是为了保证防火墙有效还是只转发到本地即可。
 
 然而，正如刚才提到的，TrueNAS禁用了很多功能，其中就包括iptables-services，因此直接用ssh执行这一命令并不是一直有效的，只要重启就会被自动清除，即使通过`crontab -e`将它写入开机命令，下一次系统更新时也会被清除，而且会极大地影响系统稳定性，因此根据TrueNAS的文档，最佳的做法还是将其添加进TrueNAS系统的开机脚本。至此，相关问题得到了完美解决。
+
+## 参考链接
+
+1. [外部无法访问docker映射的端口](https://www.jianshu.com/p/9fdc78a774ac)
+2. [Save custom iptables entry to config database?](https://www.truenas.com/community/threads/save-custom-iptables-entry-to-config-database.103874/)
+3. [什么是 Kubernetes？](https://www.redhat.com/zh/topics/containers/what-is-kubernetes)
