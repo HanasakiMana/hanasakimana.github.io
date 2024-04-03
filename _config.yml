@@ -78,7 +78,7 @@ theme_mode:  # [light | dark]
 # will be added to all image (site avatar & posts' images) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-img_cdn: "https://github.com/HanasakiMana/manalogue/raw/main/assets/img"
+img_cdn: "https://manalogue-1308817365.cos.ap-tokyo.myqcloud.com"
 
 # the avatar on sidebar, support local or CORS resources
 avatar: "/favicons/avatar.png"
